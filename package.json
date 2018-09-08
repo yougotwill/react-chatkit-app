@@ -1,0 +1,22 @@
+{
+  "name": "react-chatkit-app",
+  "dependencies": {
+    "@pusher/chatkit": "0.7.15",
+    "react": "16.0.0",
+    "react-dom": "16.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.0",
+    "babel-loader": "^7.0",
+    "babel-preset-env": "*",
+    "babel-preset-react": "*",
+    "path": "^0.12.7",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.8"
+  },
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server"
+  }
+}
