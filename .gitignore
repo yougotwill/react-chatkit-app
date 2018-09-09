@@ -26,3 +26,6 @@ build/
 
 # dotenv environment variables file
 .env
+
+# Sublime Text workspace
+react-chatkit-app.sublime-workspace

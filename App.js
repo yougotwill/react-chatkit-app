@@ -8,6 +8,13 @@ import NewRoomForm from './components/NewRoomForm'
 import {tokenUrl, instanceLocator} from './config'
 
 class App extends React.Component {
+    constructor() {
+      super()
+      this.state = {
+        messages: []
+      }
+    }
+
     componentDidMount() { {/*Triggered directly after render() has been invoked*/}
     {/* dont need instanceLocator: instanceLocator because they have the same name */}
       const chatManager = new ChatKit.ChatManager({
@@ -23,10 +30,16 @@ class App extends React.Component {
             roomId: 15686974,
             hooks: {
                 onNewMessage: message => {
-                    console.log('message.text', message.text)
+                    this.setState({
+                        messages: [...this.state.messages, message]
+                    }) 
+                    {/* [...this.state.messages, message] is an ES6 convention to an object to the end of an array 
+                        ... is a spread operator - expands the array into the argument - new array = [array contents + message]
+                        we don't use push because that modifies the state outside of the setState method and that should never be done
+                    */}
                 }
             }
-        })
+        }) 
       })
     }
 
@@ -34,7 +47,7 @@ class App extends React.Component {
         return (
             <div className="app">
                 <RoomList />
-                <MessageList />
+                <MessageList messages={this.state.messages} />
                 <SendMessageForm />
                 <NewRoomForm />
             </div>
