@@ -13,10 +13,12 @@ class App extends React.Component {
       this.state = {
         messages: []
       }
+
+      this.sendMessage = this.sendMessage.bind(this)
     }
 
     componentDidMount() { {/*Triggered directly after render() has been invoked*/}
-    {/* dont need instanceLocator: instanceLocator because they have the same name */}
+    {/* dont need instanceLocator: instanceLocator because they have the same name - ES6 convention */}
       const chatManager = new ChatKit.ChatManager({
         instanceLocator,
         userId: 'yougotwill',
@@ -26,7 +28,8 @@ class App extends React.Component {
       })
 
       chatManager.connect().then(currentUser => { {/* currentUser is the interface to communicate with the ChatKit API */}
-        currentUser.subscribeToRoom({
+        this.currentUser = currentUser;
+        this.currentUser.subscribeToRoom({
             roomId: 15686974,
             hooks: {
                 onNewMessage: message => {
@@ -43,12 +46,19 @@ class App extends React.Component {
       })
     }
 
+    sendMessage(text){
+        this.currentUser.sendMessage({
+            text,
+            roomId: 15686974
+        })
+    }
+
     render() {
         return (
             <div className="app">
                 <RoomList />
                 <MessageList messages={this.state.messages} />
-                <SendMessageForm />
+                <SendMessageForm sendMessage={this.sendMessage} />
                 <NewRoomForm />
             </div>
         );
