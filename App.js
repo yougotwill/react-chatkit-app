@@ -11,16 +11,21 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
+      roomId: null,
       messages: [],
       joinableRooms: [],
-      joinedRooms: []
+      joinedRooms: [],
     }
 
     this.sendMessage = this.sendMessage.bind(this)
+    this.getRooms = this.getRooms.bind(this)
+    this.subscribeToRoom = this.subscribeToRoom.bind(this)
   }
 
-  componentDidMount() { {/*Triggered directly after render() has been invoked*/}
-    {/* dont need instanceLocator: instanceLocator because they have the same name - ES6 convention */}
+  /** Triggered directly after render() has been invoked
+   * dont need instanceLocator: instanceLocator because they have the same name - ES6 convention
+   */
+  componentDidMount() {
     const chatManager = new ChatKit.ChatManager({
       instanceLocator,
       userId: 'yougotwill',
@@ -29,47 +34,68 @@ class App extends React.Component {
       })
     })
 
-    chatManager.connect().then(currentUser => { {/* currentUser is the interface to communicate with the ChatKit API */}
+    {/* currentUser is the interface to communicate with the ChatKit API */}
+    chatManager.connect().then(currentUser => {
       this.currentUser = currentUser
 
-      this.currentUser.getJoinableRooms()
-      .then(joinableRooms =>{
-        this.setState({
-          joinableRooms,
-          joinedRooms: this.currentUser.rooms
-        })
-      })
-      .catch(err => console.log('error on connecting:', err))
+      this.getRooms()
+    })
+    .catch(err => console.log('error on connecting:', err))
+  }
 
-      this.currentUser.subscribeToRoom({
-        roomId: 15686974,
-        hooks: {
-          onNewMessage: message => {
-            this.setState({
-              messages: [...this.state.messages, message]
-            })
-            {/* [...this.state.messages, message] is an ES6 convention to an object to the end of an array
-                ... is a spread operator - expands the array into the argument - new array = [array contents + message]
-                we don't use push because that modifies the state outside of the setState method and that should never be done
-            */}
-          }
-        }
+  getRooms(){
+    this.currentUser.getJoinableRooms()
+    .then(joinableRooms =>{
+      this.setState({
+        joinableRooms,
+        joinedRooms: this.currentUser.rooms
       })
     })
     .catch(err => console.log('error on connecting:', err))
   }
 
+  /** [...this.state.messages, message] is an ES6 convention to an object to the end of an array
+   * ... is a spread operator - expands the array into the argument - new array = [array contents + message]
+   * we don't use push because that modifies the state outside of the setState method and that should never be done
+   */
+  subscribeToRoom(roomId){
+    this.setState({
+      messages: []
+    })
+
+    this.currentUser.subscribeToRoom({
+      roomId: roomId,
+      hooks: {
+        onNewMessage: message => {
+          this.setState({
+            messages: [...this.state.messages, message]
+          })
+        }
+      }
+    })
+    .then(room => {
+      this.setState({
+        roomId: room.id
+      })
+      this.getRooms()
+    })
+    .catch(err => console.log('error on subscribing to room: ', err))
+  }
+
   sendMessage(text){
     this.currentUser.sendMessage({
       text,
-      roomId: 15686974
+      roomId: this.state.roomId
     })
   }
 
   render() {
     return (
       <div className="app">
-        <RoomList rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]} />
+        <RoomList
+          rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
+          subscribeToRoom={this.subscribeToRoom}
+        />
         <MessageList messages={this.state.messages} />
         <SendMessageForm sendMessage={this.sendMessage} />
         <NewRoomForm />

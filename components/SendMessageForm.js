@@ -19,7 +19,7 @@ class SendMessageForm extends React.Component {
   }
 
   handleSubmit(e) {
-    /* prevents default submit behaviour of the input form */
+    /* prevent default submit behaviour of the input form */
     e.preventDefault()
     this.props.sendMessage(this.state.message)
     this.setState({
@@ -27,12 +27,12 @@ class SendMessageForm extends React.Component {
     })
   }
 
+  /**
+   * we use value={this.state.message} because we want to make sure that at all times the value
+   * is controlled programmatically so it can only be what is in the state - this is now a controlled
+   * component - we know that the input field state and the component state match
+   */
   render() {
-    {/*
-      * we use value={this.state.message} because we want to make sure that at all times the value
-      * is controlled programmatically so it can only be what is in the state - this is now a controlled
-      * component - we know that the input field state and the component state match
-    */}
     return (
       <form
         onSubmit={this.handleSubmit}

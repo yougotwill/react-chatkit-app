@@ -1,5 +1,7 @@
 import React from 'react'
-{/* Originally the Message component was a class but because it does not have state, life-cycle methods or any other methods it should be a functional component */}
+/**
+ * Originally the Message component was a class but because it does not have state, life-cycle methods or any other methods it should be a functional component
+ */
 
 function Message(props) {
   return (
