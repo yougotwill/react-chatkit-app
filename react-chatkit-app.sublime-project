@@ -9,14 +9,5 @@
 			],
 			"path": "."
 		}
-	],
-	"syntax_override":
-	{
-		"\\.js$":
-		[
-			"Naomi",
-			"syntaxes",
-			"naomi.fjsx15"
-		]
-	}
+	]
 }

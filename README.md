@@ -22,5 +22,5 @@ $ npm run build
 $ npm run start
 ```
 
-- Go to [localhost:8080](localhost:8080) in your browser
+- Go to [localhost:8080](http://localhost:8080) in your browser
 - **Note:** You need to refresh the page in your browser if you make styling changes.
