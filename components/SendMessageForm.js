@@ -1,8 +1,8 @@
 import React from 'react'
 
 class SendMessageForm extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
 
     this.state = {
       message: ''
@@ -38,6 +38,7 @@ class SendMessageForm extends React.Component {
         onSubmit={this.handleSubmit}
         className="send-message-form">
         <input
+          disabled={this.props.disabled}
           onChange={this.handleChange}
           value={this.state.message}
           placeholder="Type your message and hit ENTER"
