@@ -1,6 +1,6 @@
 # React-chatkit-app
 
-![screenshot](/Users/William/Documents/SourceTree/react-chatkit-app/screenshot.png)
+![screenshot](screenshot.png)
 
 Sourced from the [Build a chat app with React.js and Chatkit](https://scrimba.com/playlist/pbNpTv) course on [Scrimba](https://scrimba.com/).
 Adapted for my own learning purposes and preferences.
